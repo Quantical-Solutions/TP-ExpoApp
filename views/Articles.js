@@ -1,16 +1,21 @@
 import React from "react";
-import { Text, FlatList, Image, View, StyleSheet } from "react-native";
+import { Text, FlatList, Image, View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import XHR from "../utils/XHR";
 import DateHumanizer from '../utils/DateHumanizer';
+import Article from "./Article";
 
-const call = 'http://api.eint-sandbox.fr?token=1234&'
+const call = 'http://api.eint-sandbox.fr?token=1234&',
+    winWidth = Dimensions.get('window').width,
+    winHeight = Dimensions.get('window').height
 
 export default class Articles extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: []
+            data: [],
+            single: false,
+            soloData: null
         }
     }
 
@@ -21,62 +26,81 @@ export default class Articles extends React.Component {
         })
     }
 
+    getArticle = (article) => {
+        this.setState({
+            soloData: article,
+            single: true
+        })
+    }
+
+    goBack = () => {
+        this.setState({
+            soloData: null,
+            single: false
+        })
+    }
+
     render() {
 
         return(
-            <View style={styles.container}>
-                <FlatList
-                    data={this.state.data}
-                    renderItem={( {item} ) =>
-                        <View style={styles.article}>
-                            <Text
-                                style={styles.title}
-                            >
-                                {item.title}
-                            </Text>
-                            <View style={styles.author_date}>
-                                <Text style={styles.details}>
-                                    Publié par {item.author}
-                                </Text>
-                                <Text style={styles.details}>
-                                    le {DateHumanizer(item.date)}
-                                </Text>
-                            </View>
-                            <Text
-                                style={styles.chapo}
-                            >
-                                {item.chapo}
-                            </Text>
-                            <View style={styles.imgContainer}>
-                                <Image
-                                    source={{uri: item.image}}
-                                    style={styles.img}
-                                />
-                            </View>
-                            <Text
-                                style={styles.content}
-                            >
-                                {item.content}
-                            </Text>
-                        </View>
-                    }
-                />
-            </View>
+            <>
+                {this.state.single === false &&
+                    <View style={styles.container}>
+                        <FlatList
+                            numColumns={2}
+                            data={this.state.data}
+                            renderItem={({item}) =>
+                                <TouchableOpacity
+                                    onPress={() => this.getArticle(item)}
+                                    style={styles.article}
+                                >
+                                    <Text
+                                        style={styles.title}
+                                    >
+                                        {item.title}
+                                    </Text>
+                                    <View style={styles.author_date}>
+                                        <Text style={styles.details}>
+                                            Publié par {item.author}
+                                        </Text>
+                                        <Text style={styles.details}>
+                                            le {DateHumanizer(item.date)}
+                                        </Text>
+                                    </View>
+                                    <View style={styles.imgContainer}>
+                                        <Image
+                                            source={{uri: item.image}}
+                                            style={styles.img}
+                                        />
+                                    </View>
+                                    <Text
+                                        style={styles.chapo}
+                                    >
+                                        {item.chapo}
+                                    </Text>
+                                </TouchableOpacity>
+                            }
+                        />
+                    </View>
+                }
+                {this.state.single === true &&
+                    <Article
+                        data={this.state.soloData}
+                        goBack={this.goBack}
+                    />
+                }
+            </>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 20
-    },
     article: {
+        width: winWidth / 2 - 20,
         padding: 20,
-        margin: 20,
-        fontSize: 18,
-        marginBottom: 30,
-        backgroundColor: '#E7E7E7',
+        margin: 10,
+        marginBottom: 10,
+        backgroundColor: '#fff',
         borderRadius: 10,
         borderStyle: 'solid',
         borderWidth: 1,
@@ -84,21 +108,18 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 15, height: 15 },
         shadowColor: 'black',
         shadowOpacity: 1,
-        elevation: 4,
+        elevation: 4
     },
     title: {
         fontWeight: 'bold',
-        fontSize: 24,
+        fontSize: 16,
         textAlign: 'center',
-        paddingBottom: 20,
+        paddingBottom: 5,
         borderStyle: 'solid',
         borderBottomWidth: 1,
         borderBottomColor: '#fff',
     },
     author_date: {
-        marginTop: 10,
-        marginBottom: 20,
-        paddingBottom: 10,
         borderStyle: 'solid',
         borderBottomWidth: 1,
         borderBottomColor: '#fff',
@@ -106,17 +127,16 @@ const styles = StyleSheet.create({
     details: {
         opacity: 0.5,
         fontStyle: 'italic',
-        fontSize: 12,
+        fontSize: 8,
         textAlign: 'center'
     },
     chapo: {
         fontWeight: 'bold',
         textAlign: 'justify',
-        fontSize: 18,
+        fontSize: 12,
     },
     imgContainer: {
-        height: 200,
-        width: '100%',
+        height: 100,
         marginTop: 20,
         marginBottom: 10,
         borderRadius: 10,
@@ -131,10 +151,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     img: {
-        height: 200
-    },
-    content: {
-        textAlign: 'justify',
-        marginTop: 20
+        height: winWidth / 3,
     }
 })

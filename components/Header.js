@@ -8,7 +8,7 @@ export default class Header extends React.Component {
         return(
             <View style={styles.container}>
                 <Image source={require('../assets/logo.png')} style={styles.img}/>
-                <TextInput placeHolder="Recherche" style={styles.input}/>
+                <TextInput placeholder="Recherche" style={styles.input}/>
             </View>
         )
     }
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        backgroundColor: '#F1F1F1'
+        backgroundColor: '#3c3c3c'
     },
     img: {
         height: 30,
@@ -31,14 +31,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         marginRight: 20,
         width: '50%',
+
         paddingTop: 5,
         paddingBottom: 5,
         paddingLeft: 20,
         paddingRight: 20,
+
         borderRadius: 50,
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: '#e1e1e1',
+
         shadowColor: 'black',
         shadowOffset: {x:10, y:10},
         shadowOpacity: 1,

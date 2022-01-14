@@ -12,7 +12,8 @@ export default class Contact extends React.Component {
         this.state = {
             email: null,
             subject: null,
-            body: null
+            body: null,
+            sent: false
         }
     }
 
@@ -45,36 +46,52 @@ export default class Contact extends React.Component {
         this.setState({
             email: null,
             subject: null,
-            body: null
+            body: null,
+            sent: true
         })
+        setTimeout(() => {
+            this.setState({
+                sent: false
+            })
+        }, 2000)
     }
 
     render() {
 
         return(
-            <View style={styles.container}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email"
-                    onChangeText={text => this.handleEmail('email', text)}
-                    defaultValue={this.state.email}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Sujet"
-                    onChangeText={text => this.handleEmail('subject', text)}
-                    defaultValue={this.state.subject}
-                />
-                <TextInput
-                    style={styles.textArea}
-                    placeholder="Message"
-                    numberOfLines={10}
-                    multiline={true}
-                    defaultValue={this.state.body}
-                    onChangeText={text => this.handleEmail('body', text)}
-                />
-                <Text onPress={() => this.sendEmail()}>Envoyer</Text>
-            </View>
+            <>
+                {this.state.sent === false &&
+
+                    <View style={styles.container}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Email"
+                            onChangeText={text => this.handleEmail('email', text)}
+                            defaultValue={this.state.email}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Sujet"
+                            onChangeText={text => this.handleEmail('subject', text)}
+                            defaultValue={this.state.subject}
+                        />
+                        <TextInput
+                            style={styles.textArea}
+                            placeholder="Message"
+                            numberOfLines={10}
+                            multiline={true}
+                            defaultValue={this.state.body}
+                            onChangeText={text => this.handleEmail('body', text)}
+                        />
+                        <Text onPress={() => this.sendEmail()}>Envoyer</Text>
+                    </View>
+                }
+                {this.state.sent === true &&
+                    <View style={styles.container2}>
+                        <Text style={styles.confirmation}>Je t'ai bien eu, j'ai rien envoyé...</Text>
+                    </View>
+                }
+            </>
         )
     }
 }
@@ -82,6 +99,17 @@ export default class Contact extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
+    },
+    container2: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1
+    },
+    confirmation: {
+        fontStyle: 'italic',
+        color: 'green',
+        fontSize: 16,
+        textAlign: 'center'
     },
     input: {
         margin: 20,

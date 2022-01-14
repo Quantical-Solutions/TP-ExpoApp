@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export default class Test1 extends React.Component {
+export default class WeatherToCome extends React.Component {
 
     constructor(props) {
         super(props);
@@ -11,7 +11,7 @@ export default class Test1 extends React.Component {
 
         return(
             <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Text>Test 1</Text>
+                <Text>Test 2</Text>
             </View>
         )
     }

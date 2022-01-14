@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 
-export default class Options extends React.Component {
+export default class Weather extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,7 +10,7 @@ export default class Options extends React.Component {
     render() {
 
         return(
-            <Text>Options</Text>
+            <Text>Weather</Text>
         )
     }
 }

@@ -1,7 +1,8 @@
 import React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Settings from "../../views/Settings";
-import Options from "../../views/Options";
+import Contact from "../../views/Contact";
+import Articles from "../../views/Articles";
+import Swiper from "./Swiper";
 import { Image } from "react-native";
 
 const BottomTab = createBottomTabNavigator()
@@ -14,18 +15,29 @@ export default class Bottom extends React.Component {
             <BottomTab.Navigator>
 
                 <BottomTab.Screen
-                    name="Settings"
-                    children={() => <Settings/>}
+                    name="Blog"
+                    children={() => <Articles/>}
                     options={{
-                        tabBarIcon: () => (<Image source={require('../../assets/cog.png')} style={{width: 20, height: 20}}/>)
+                        tabBarIcon: () => (<Image source={require('../../assets/newspaper.png')} style={{width: 20, height: 20}}/>),
+                        headerShown: false,
                     }}
                 />
 
                 <BottomTab.Screen
-                    name="Options"
-                    children={() => <Options/>}
+                    name="Météo"
+                    children={() => <Swiper/>}
                     options={{
-                        tabBarIcon: () => (<Image source={require('../../assets/tools.png')} style={{width: 20, height: 20}}/>)
+                        tabBarIcon: () => (<Image source={require('../../assets/cloud-sun.png')} style={{width: 20, height: 20}}/>),
+                        headerShown: false,
+                    }}
+                />
+
+                <BottomTab.Screen
+                    name="Contact"
+                    children={() => <Contact/>}
+                    options={{
+                        tabBarIcon: () => (<Image source={require('../../assets/paper-plane.png')} style={{width: 20, height: 20}}/>),
+                        headerShown: false,
                     }}
                 />
 
